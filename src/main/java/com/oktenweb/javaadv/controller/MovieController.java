@@ -2,6 +2,7 @@ package com.oktenweb.javaadv.controller;
 
 import com.oktenweb.javaadv.entity.Movie;
 import com.oktenweb.javaadv.service.MovieService;
+import com.oktenweb.javaadv.validator.MovieValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
@@ -9,8 +10,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,6 +24,7 @@ import java.util.List;
 //@Bean
 //@ControllerAdvice
 //@RestControllerAdvice
+@RequestMapping(value = "/movie")
 public class MovieController {
 
     //    private List<Movie> movies = new ArrayList<>();
@@ -32,18 +36,28 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
+    @Autowired
+    private MovieValidator movieValidator;
+
     //    //var.1
 //    @RequestMapping(value = "/movie", method = RequestMethod.GET)
     //var.2
-    @GetMapping(value = "/movie")
+//    @GetMapping(value = "/movie")
+    @GetMapping
     public List<Movie> getMovies() {
 //        return movies;
         return movieService.getAllMovies();
     }
 
-    @PostMapping(value = "/movie")
+    @GetMapping("/{id}")
+    public Movie getMovieById(@PathVariable int id) {
+        return movieService.getMovieById(id);
+    }
+
+    //    @PostMapping(value = "/movie")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Movie insertMovie(@RequestBody Movie movie) {
+    public Movie insertMovie(@RequestBody @Valid Movie movie) {
 //        System.out.println(movie);
 //        {
 //            "id": 3,
@@ -53,16 +67,14 @@ public class MovieController {
 
 //        movies.add(movie);
 //        return movie;
-        final List<Movie> allMovies = movieService.getAllMovies();
-        25:42
-        System.out.println(allMovies);
         return movieService.createMovie(movie);
 
     }
 
-    @PutMapping(value = "/movie/{id}")
+    //    @PutMapping(value = "/movie/{id}")
+    @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Movie updateMovie(@PathVariable int id, @RequestBody Movie movie) {
+    public Movie updateMovie(@PathVariable int id, @RequestBody @Valid Movie movie) {
 //        final Optional<Movie> first = movies.stream()
 //                .filter(m -> m.getId() == id)
 //                .findFirst();
@@ -74,7 +86,8 @@ public class MovieController {
         return movieService.updateMovie(id, movie);
     }
 
-    @DeleteMapping(value = "/movie/{id}")
+    //    @DeleteMapping(value = "/movie/{id}")
+    @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMovie(@PathVariable int id) {
 //        final boolean isRemoved = movies.removeIf(movie -> movie.getId() == id);
@@ -85,6 +98,14 @@ public class MovieController {
 //        }
         movieService.deleteMovie(id);
     }
+
+//    @InitBinder
+//    public void initBinder(WebDataBinder dataBinder){
+////        dataBinder.addValidators(new MovieValidator());
+//        dataBinder.addValidators(movieValidator);
+//        //dataBinder.addValidators(movieValidator1);
+//        //...
+//    }
 
 }
 

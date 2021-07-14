@@ -2,6 +2,7 @@ package com.oktenweb.javaadv.service;
 
 import com.oktenweb.javaadv.dao.MovieDao;
 import com.oktenweb.javaadv.entity.Movie;
+import org.apache.commons.lang3.CharUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie createMovie(Movie movie) {
+        if (!CharUtils.isAsciiAlphaUpper(movie.getTitle().charAt(0))) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Movie title should start with capital letter!");
+        }
         return movieDao.saveAndFlush(movie);
     }
 
@@ -40,5 +44,11 @@ public class MovieServiceImpl implements MovieService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No movie found");
         }
         movieDao.deleteById(id);
+    }
+
+    @Override
+    public Movie getMovieById(int id) {
+        return movieDao.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "No movie with id: " + id));
     }
 }
