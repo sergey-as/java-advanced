@@ -1,14 +1,19 @@
 package com.oktenweb.javaadv.service;
 
 import com.oktenweb.javaadv.dao.MovieDao;
+import com.oktenweb.javaadv.dto.MoviePage;
 import com.oktenweb.javaadv.entity.Movie;
+import com.oktenweb.javaadv.exceptions.ItemNotFoundException;
 import org.apache.commons.lang3.CharUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MovieServiceImpl implements MovieService {
@@ -17,8 +22,14 @@ public class MovieServiceImpl implements MovieService {
     private MovieDao movieDao;
 
     @Override
-    public List<Movie> getAllMovies() {
-        return movieDao.findAll();
+    public MoviePage getAllMovies(int page, int size) {
+        final Page<Movie> movies = movieDao.findAll(PageRequest.of(page, size));
+        final MoviePage moviePage = new MoviePage();
+        moviePage.setMovies(movies.getContent());
+        moviePage.setCurrentPage(movies.getNumber());
+        moviePage.setLast(movies.isLast());
+        moviePage.setTotalElements(movies.getTotalElements());
+        return moviePage;
     }
 
     @Override
@@ -51,4 +62,14 @@ public class MovieServiceImpl implements MovieService {
         return movieDao.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "No movie with id: " + id));
     }
+
+    @Override
+    public Movie getMovieByTitle(String title) {
+        final Optional<Movie> movie = movieDao.findByTitle(title);
+        return movie.orElseThrow(() -> new ItemNotFoundException("Movie", "title", title));
+    }
+//   public String getMovieByTitle(String title) {
+//        return movieDao.findByTitle(title);
+//    }
+
 }

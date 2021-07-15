@@ -30,6 +30,10 @@ public class Movie {
     @Positive
     private int duration;
 
+    @ManyToOne
+    @JsonIgnore
+    private Director director;
+
 //    {
 //        "title": "Star Wars: New Hope",
 //        "duration": 190

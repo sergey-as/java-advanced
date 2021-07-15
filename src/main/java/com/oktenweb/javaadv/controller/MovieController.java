@@ -1,20 +1,16 @@
 package com.oktenweb.javaadv.controller;
 
+import com.oktenweb.javaadv.dto.MoviePage;
 import com.oktenweb.javaadv.entity.Movie;
 import com.oktenweb.javaadv.service.MovieService;
 import com.oktenweb.javaadv.validator.MovieValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 //@Controller
@@ -26,6 +22,8 @@ import java.util.List;
 //@RestControllerAdvice
 @RequestMapping(value = "/movie")
 public class MovieController {
+
+    public static final Logger LOG = LoggerFactory.getLogger(MovieController.class);
 
     //    private List<Movie> movies = new ArrayList<>();
 //
@@ -44,15 +42,23 @@ public class MovieController {
     //var.2
 //    @GetMapping(value = "/movie")
     @GetMapping
-    public List<Movie> getMovies() {
+    public MoviePage getMovies(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size) {
 //        return movies;
-        return movieService.getAllMovies();
+        return movieService.getAllMovies(page, size);
     }
 
     @GetMapping("/{id}")
     public Movie getMovieById(@PathVariable int id) {
         return movieService.getMovieById(id);
     }
+
+    @GetMapping("/title/{title}")
+    public Movie getMovieByTitle(@PathVariable String title) {
+        return movieService.getMovieByTitle(title);
+    }
+//   public String getMovieByTitle(@PathVariable String title) {
+//        return movieService.getMovieByTitle(title);
+//    }
 
     //    @PostMapping(value = "/movie")
     @PostMapping
@@ -67,6 +73,7 @@ public class MovieController {
 
 //        movies.add(movie);
 //        return movie;
+        LOG.info("Handling POST request for object {}", movie);
         return movieService.createMovie(movie);
 
     }

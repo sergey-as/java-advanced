@@ -1,11 +1,11 @@
 package com.oktenweb.javaadv.service;
 
+import com.oktenweb.javaadv.dto.MoviePage;
 import com.oktenweb.javaadv.entity.Movie;
 
-import java.util.List;
-
 public interface MovieService {
-    List<Movie> getAllMovies();
+
+    MoviePage getAllMovies(int page, int size);
 
     Movie createMovie(Movie movie);
 
@@ -14,4 +14,7 @@ public interface MovieService {
     void deleteMovie(int id);
 
     Movie getMovieById(int id);
+
+    Movie getMovieByTitle(String title);
+//    String getMovieByTitle(String title);
 }
