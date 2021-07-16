@@ -11,11 +11,11 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "/director")
 @RequiredArgsConstructor
-@RequestMapping()
 @Slf4j
 public class DirectorController {
-43:00
+
     private final DirectorService directorService;
 
     @GetMapping

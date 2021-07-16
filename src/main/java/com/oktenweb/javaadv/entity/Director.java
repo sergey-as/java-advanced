@@ -2,6 +2,7 @@ package com.oktenweb.javaadv.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,9 +13,8 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-//@Data
-@Getter
-@Setter
+@Data
+//@JsonIgnoreProperties("movies, cinemaStudio, ...")
 public class Director {
 
     @Id

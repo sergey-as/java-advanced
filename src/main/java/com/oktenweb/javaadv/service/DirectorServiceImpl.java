@@ -21,8 +21,12 @@ public class DirectorServiceImpl implements DirectorService {
 
     @Override
     public List<Director> getAllDirectors() {
-        return directorDao.findAll();
+        return directorDao.myFindAll();
     }
+//    @Override
+//    public List<Director> getAllDirectors() {
+//        return directorDao.findAll();
+//    }
 
     @Override
     public Director createDirector(Director director) {

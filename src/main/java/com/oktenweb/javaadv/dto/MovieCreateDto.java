@@ -8,5 +8,8 @@ import lombok.NoArgsConstructor;
 public class MovieCreateDto {
 
     private int id;
+    private String title;
+    private int duration;
+    private int directorId;
 
 }

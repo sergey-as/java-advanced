@@ -1,5 +1,6 @@
 package com.oktenweb.javaadv.controller;
 
+import com.oktenweb.javaadv.dto.MovieCreateDto;
 import com.oktenweb.javaadv.dto.MoviePage;
 import com.oktenweb.javaadv.entity.Movie;
 import com.oktenweb.javaadv.service.MovieService;
@@ -63,7 +64,7 @@ public class MovieController {
     //    @PostMapping(value = "/movie")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Movie insertMovie(@RequestBody @Valid Movie movie) {
+    public MovieCreateDto insertMovie(@RequestBody @Valid MovieCreateDto movie) {
 //        System.out.println(movie);
 //        {
 //            "id": 3,

@@ -1,18 +1,20 @@
 package com.oktenweb.javaadv.dto;
 
-import com.oktenweb.javaadv.entity.Movie;
-import lombok.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 //@AllArgsConstructor
-//@Data
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
+//@Getter
+//@Setter
 public class MoviePage {
 
-    private List<Movie> movies;
+    private List<MovieDto> movies;
     private long totalElements;
     private int currentPage;
     private boolean last;
