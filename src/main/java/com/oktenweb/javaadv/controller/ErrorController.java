@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 @Slf4j
 public class ErrorController {
-01:21:21
+
     @ExceptionHandler(value = MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {

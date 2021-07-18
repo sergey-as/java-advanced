@@ -1,5 +1,6 @@
 package com.oktenweb.javaadv.controller;
 
+import com.oktenweb.javaadv.dto.DirectorListDto;
 import com.oktenweb.javaadv.entity.Director;
 import com.oktenweb.javaadv.service.DirectorService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,10 @@ public class DirectorController {
     private final DirectorService directorService;
 
     @GetMapping
-    public List<Director> getDirectors() {
+//    public List<Director> getDirectors() {
+//        return directorService.getAllDirectors();
+//    }
+    public List<DirectorListDto> getDirectors() {
         return directorService.getAllDirectors();
     }
 

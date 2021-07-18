@@ -1,12 +1,13 @@
 package com.oktenweb.javaadv.service;
 
+import com.oktenweb.javaadv.dto.DirectorListDto;
 import com.oktenweb.javaadv.entity.Director;
 
 import java.util.List;
 
 public interface DirectorService {
 
-    List<Director> getAllDirectors();
+    List<DirectorListDto> getAllDirectors();
 
     Director createDirector(Director director);
 

@@ -1,13 +1,16 @@
 package com.oktenweb.javaadv.service;
 
 import com.oktenweb.javaadv.dao.DirectorDao;
+import com.oktenweb.javaadv.dto.DirectorListDto;
 import com.oktenweb.javaadv.entity.Director;
+import com.oktenweb.javaadv.entity.Movie;
 import com.oktenweb.javaadv.exceptions.ItemNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 //@RequiredArgsConstructor
@@ -20,8 +23,22 @@ public class DirectorServiceImpl implements DirectorService {
     }
 
     @Override
-    public List<Director> getAllDirectors() {
-        return directorDao.myFindAll();
+//    public List<Director> getAllDirectors() {
+    public List<DirectorListDto> getAllDirectors() {
+        final List<Director> directorDaoAll = directorDao.myFindAll();
+        final List<DirectorListDto> collect = directorDaoAll.stream()
+                .map(director -> {
+                    DirectorListDto directorListDto = new DirectorListDto();
+                    directorListDto.setDirectorId(director.getId());
+                    directorListDto.setName(director.getName());
+
+                    final List<Integer> ids = director.getMovies().stream()
+                            .map(Movie::getId)
+                            .collect(Collectors.toList());
+                    directorListDto.setMovies(ids);
+                    return directorListDto;
+                }).collect(Collectors.toList());
+        return collect;
     }
 //    @Override
 //    public List<Director> getAllDirectors() {
