@@ -2,8 +2,8 @@ package com.oktenweb.javaadv.service;
 
 import com.oktenweb.javaadv.dao.UserDao;
 import com.oktenweb.javaadv.dto.UserDto;
+import com.oktenweb.javaadv.entity.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,10 +17,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     private final UserDao userDao;
     private final PasswordEncoder passwordEncoder;
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userDao.fiByUsername(username);
+        return userDao.findByUsername(username);
     }
 
     @Override
@@ -28,7 +27,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         User user = new User();
         user.setUsername(userDto.getUsername());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setRole("ROLE_");
-
+        user.setRole("ROLE_USER");
+        userDao.save(user);
+        return user.getUsername();
     }
+
 }
