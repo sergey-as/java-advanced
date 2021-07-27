@@ -9,9 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 //@Controller
@@ -43,9 +45,10 @@ public class MovieController {
     //var.2
 //    @GetMapping(value = "/movie")
     @GetMapping
-    public MoviePage getMovies(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size) {
-//        return movies;
+    public MoviePage getMovies(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size,
+                               Principal principal, Authentication authentication) {
         return movieService.getAllMovies(page, size);
+//        return movies;
     }
 
     @GetMapping("/{id}")
