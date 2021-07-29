@@ -70,6 +70,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable().cors().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/user").anonymous()
+                .antMatchers(HttpMethod.GET, "/user/verification").anonymous()
                 .antMatchers(HttpMethod.POST, "/token").anonymous()
                 .antMatchers(HttpMethod.POST, "/director").hasRole("ADMIN")
                 .antMatchers("/director").authenticated()
@@ -78,8 +79,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 //Відключити створення сесій:
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-                //.httpBasic()
-                //.and();
+        //.httpBasic()
+        //.and();
     }
 
 }

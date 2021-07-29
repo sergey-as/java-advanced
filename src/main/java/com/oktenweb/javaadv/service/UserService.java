@@ -5,4 +5,6 @@ import com.oktenweb.javaadv.dto.UserDto;
 public interface UserService {
 
     String createUser(UserDto userDto);
+
+    void verifyUser(String code);
 }

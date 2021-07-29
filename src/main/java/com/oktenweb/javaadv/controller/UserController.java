@@ -10,9 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
@@ -26,6 +24,11 @@ public class UserController {
     @PostMapping("/user")
     public String register(@RequestBody UserDto userDto) {
         return userService.createUser(userDto);
+    }
+
+    @GetMapping("/user/verification")
+    public void verifyUser(@RequestParam String code) {
+        userService.verifyUser(code);
     }
 
     @PostMapping("/token")
